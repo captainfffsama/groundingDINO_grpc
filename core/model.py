@@ -3,7 +3,7 @@
 @Author: captainfffsama
 @Date: 2023-04-10 10:54:49
 @LastEditors: captainfffsama tuanzhangsama@outlook.com
-@LastEditTime: 2023-04-10 17:12:56
+@LastEditTime: 2023-04-10 19:13:59
 @FilePath: /groundingDINO_grpc/core/model.py
 @Description:
 '''
@@ -14,7 +14,7 @@ from simecy import decrypt
 import numpy as np
 import cv2
 import torch
-
+from PIL import Image
 from core.proto import dldetection_pb2
 from core.proto import dldetection_pb2_grpc as dld_pb2_grpc
 
@@ -108,6 +108,7 @@ class Detector(dld_pb2_grpc.AiServiceServicer):
 
     def ZeroShotDet(self, request, context):
         img=get_img(request.imdata)
+        img=Image.fromarray(cv2.cvtColor(img,cv2.COLOR_BGR2RGB))
         result = self.infer(img,request.prompt)
         print(result)
         result_pro = dldetection_pb2.DlResponse()

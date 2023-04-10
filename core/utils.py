@@ -3,7 +3,7 @@
 @Author: captainfffsama
 @Date: 2023-03-23 18:05:51
 @LastEditors: captainfffsama tuanzhangsama@outlook.com
-@LastEditTime: 2023-04-10 15:26:00
+@LastEditTime: 2023-04-10 19:12:17
 @FilePath: /groundingDINO_grpc/core/utils.py
 @Description:
 '''
@@ -19,17 +19,16 @@ import cv2
 from .proto import dldetection_pb2
 from PIL import Image, ImageDraw, ImageFont
 
-def get_img(img_info) -> Optional[Image.Image]:
+def get_img(img_info):
     if os.path.isfile(img_info):
         if not os.path.exists(img_info):
             return None
         else:
-            return Image.open(img_info)  #ignore
+            return cv2.imread(img_info)  #ignore
     else:
-        # base64_data = re.sub('^data:image/.+;base64,', '',img_info)
         img_str = base64.b64decode(img_info)
-        img_data=BytesIO(img_str)
-        return Image.open(img_data)
+        img_np = np.fromstring(img_str, np.uint8)
+        return cv2.imdecode(img_np, cv2.IMREAD_COLOR)
 
 
 def np2tensor_proto(np_ndarray: np.ndarray):
