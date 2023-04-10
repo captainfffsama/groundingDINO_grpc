@@ -1,0 +1,10 @@
+detector_params:
+  cfg_path: "/home/chiebotgpuhq/MyCode/python/pytorch/groundingDINO_grpc/test_weight/GroundingDINO_SwinB.cfg.py"
+  ckpt_path: "/home/chiebotgpuhq/MyCode/python/pytorch/groundingDINO_grpc/test_weight/groundingdino_swinb_cogcoor.pth"
+  box_thr: 0.3
+  text_thr: 0.3
+  device: "cuda:0"
+grpc_args:
+    host: "0.0.0.0"
+    port: "52007"
+    max_workers: 10

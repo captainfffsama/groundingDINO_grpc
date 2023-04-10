@@ -1,0 +1,9 @@
+groundingdino @ git+https://git.chiebot.com:10000/HuQiong/GroundingDINO.git@chiebot_dev#egg=groundingdino
+Pillow
+grpcio == 1.37.0
+grpcio-tools == 1.37.0
+pid
+pyyaml
+yacs
+matplotlib
+simecy @ git+https://github.com/captainfffsama/simple_encryption.git#egg=simecy
