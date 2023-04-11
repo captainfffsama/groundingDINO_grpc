@@ -3,7 +3,7 @@
 @Author: captainfffsama
 @Date: 2023-04-10 10:54:49
 @LastEditors: captainfffsama tuanzhangsama@outlook.com
-@LastEditTime: 2023-04-11 13:16:16
+@LastEditTime: 2023-04-11 14:35:50
 @FilePath: /groundingDINO_grpc/core/model.py
 @Description:
 '''
@@ -108,6 +108,7 @@ class Detector(dld_pb2_grpc.AiServiceServicer):
     def ZeroShotDet(self, request, context):
         img=get_img(request.imdata)
         img=Image.fromarray(cv2.cvtColor(img,cv2.COLOR_BGR2RGB))
+        print("prompt is: ",request.prompt)
         result = self.infer(img,request.prompt,request.boxThr,request.textThr)
         print(result)
         result_pro = dldetection_pb2.DlResponse()
