@@ -1,1 +1,3 @@
-万能检测的rpc
+# Introduction
+a simple grpc server of [groundingDINO](https://github.com/IDEA-Research/GroundingDINO)
+
