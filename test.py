@@ -3,7 +3,7 @@
 @Author: captainfffsama
 @Date: 2023-04-10 15:51:57
 @LastEditors: captainfffsama tuanzhangsama@outlook.com
-@LastEditTime: 2023-04-10 17:13:32
+@LastEditTime: 2023-04-11 13:17:25
 @FilePath: /groundingDINO_grpc/test.py
 @Description:
 '''
@@ -33,6 +33,8 @@ def run():
         req1 = dldetection_pb2.ZeroShotRequest()
         req1.imdata = img_b64encode
         req1.prompt="dryer"
+        req1.boxThr=0.3
+        req1.textThr=0.3
         r1 = stub.ZeroShotDet(req1)
 
         # breakpoint()
@@ -57,7 +59,7 @@ def unit_run():
     from PIL import Image
     img_path = r"/home/chiebotgpuhq/MyCode/python/pytorch/groundingDINO_grpc/test_weight/2.jpg"
     img=Image.open(img_path)
-    r=model.infer(img,"dryer")
+    r=model.infer(img,"dryer",0.3,0.3)
     print(r)
 
 if __name__ == '__main__':

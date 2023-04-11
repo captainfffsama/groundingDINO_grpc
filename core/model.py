@@ -3,7 +3,7 @@
 @Author: captainfffsama
 @Date: 2023-04-10 10:54:49
 @LastEditors: captainfffsama tuanzhangsama@outlook.com
-@LastEditTime: 2023-04-11 11:00:52
+@LastEditTime: 2023-04-11 13:16:16
 @FilePath: /groundingDINO_grpc/core/model.py
 @Description:
 '''
@@ -64,8 +64,6 @@ class Detector(dld_pb2_grpc.AiServiceServicer):
     def __init__(self,
                  cfg_path,
                  ckpt_path,
-                 box_thr=0.3,
-                 text_thr=0.3,
                  device: str = 'cuda:0'):
         with decrypt(cfg_path,
                      'chiebot-ai') as cf, decrypt(ckpt_path,
@@ -74,10 +72,9 @@ class Detector(dld_pb2_grpc.AiServiceServicer):
             model_args.device = device
             ckpt=torch.load(ck,map_location="cpu")
         self.model=build_model(model_args)
+        self.device=device
         load_res=self.model.load_state_dict(clean_state_dict(ckpt["model"]),strict=False)
         self.model.eval()
-        self.box_thr=box_thr
-        self.text_thr=text_thr
         self._transform = T.Compose(
             [
                 T.RandomResize([800], max_size=1333),
@@ -88,12 +85,13 @@ class Detector(dld_pb2_grpc.AiServiceServicer):
         print("model init done!")
 
 
-    def infer(self, img,prompt:str):
+    def infer(self, img,prompt:str,box_thr:float,text_thr:float):
         W,H=img.size
         classes=set(prompt.split(";"))
         img_det,_=self._transform(img,None)
+        cpu_only= True if self.device.startswith("cpu") else False
         boxes_filt, pred_phrases = get_grounding_output(
-            self.model,img_det,prompt, self.box_thr, self.text_thr, cpu_only=False
+            self.model,img_det,prompt, box_thr, text_thr, cpu_only=cpu_only
         )
         new_result =[]
         for box,label in zip(boxes_filt, pred_phrases):
@@ -110,7 +108,7 @@ class Detector(dld_pb2_grpc.AiServiceServicer):
     def ZeroShotDet(self, request, context):
         img=get_img(request.imdata)
         img=Image.fromarray(cv2.cvtColor(img,cv2.COLOR_BGR2RGB))
-        result = self.infer(img,request.prompt)
+        result = self.infer(img,request.prompt,request.boxThr,request.textThr)
         print(result)
         result_pro = dldetection_pb2.DlResponse()
         for obj in result:

@@ -3,7 +3,7 @@
 @Author: captainfffsama
 @Date: 2023-04-10 10:53:33
 @LastEditors: captainfffsama tuanzhangsama@outlook.com
-@LastEditTime: 2023-04-10 15:58:15
+@LastEditTime: 2023-04-11 13:19:39
 @FilePath: /groundingDINO_grpc/core/base_config.py
 @Description:
 '''
@@ -15,8 +15,6 @@ param = dict(
 detector_params = dict(
     cfg_path="/home/chiebotgpuhq/MyCode/python/pytorch/mmdet_grpc/test_weight/detr.py",
     ckpt_path="/home/chiebotgpuhq/MyCode/python/pytorch/mmdet_grpc/test_weight/best.pth",
-    box_thr=0.25,
-    text_thr=0.25,
     device="cuda:0",
 ),
 
