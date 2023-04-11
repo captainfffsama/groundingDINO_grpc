@@ -3,7 +3,7 @@
 @Author: captainfffsama
 @Date: 2023-04-10 10:54:49
 @LastEditors: captainfffsama tuanzhangsama@outlook.com
-@LastEditTime: 2023-04-10 19:13:59
+@LastEditTime: 2023-04-11 11:00:52
 @FilePath: /groundingDINO_grpc/core/model.py
 @Description:
 '''
@@ -100,6 +100,7 @@ class Detector(dld_pb2_grpc.AiServiceServicer):
             if label[0] in classes:
                 box:torch.Tensor = box * torch.Tensor([W, H, W, H])
                 box[:2] -= box[2:] / 2
+                box[2:] += box[:2]
                 box=box.detach().cpu().numpy().tolist()
                 new_result .append((label[0],label[1],*box))
 
