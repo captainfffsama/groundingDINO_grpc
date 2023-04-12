@@ -26,10 +26,10 @@ RUN sed -i "s@http://.*archive.ubuntu.com@http://mirrors.bfsu.edu.cn@g" /etc/apt
     && git config --global http.sslverify false \
     && pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple \
     && pip install --no-cache-dir grpcio-tools==1.37.0 \
-    # && git clone -b chiebot_dev --depth 1 https://github.com/captainfffsama/GroundingDINO.git \
-    && git clone -b chiebot_dev --depth 1  https://git.chiebot.com:10000/HuQiong/GroundingDINO.git \
+    && git clone -b chiebot_dev --depth 1 https://github.com/captainfffsama/GroundingDINO.git \
+    # && git clone -b chiebot_dev --depth 1  https://git.chiebot.com:10000/HuQiong/GroundingDINO.git \
     && cd GroundingDINO \
-    && pip install . \
+    && pip install -e . \
     && cd ../ \
     && pip install --no-cache-dir pid  \
     && conda clean --all \
@@ -42,11 +42,11 @@ RUN mkdir /root/mount \
     && wget https://huggingface.co/bert-base-uncased/resolve/main/tokenizer_config.json \
     && wget https://huggingface.co/bert-base-uncased/resolve/main/vocab.txt \
     && wget https://huggingface.co/bert-base-uncased/resolve/main/config.json \
-    # && wget https://huggingface.co/bert-base-uncased/resolve/main/pytorch_model.bin \
-    && wget https://soft.chiebot.com:10000/model_weight/groundingDINO_weight/bert-base-uncased/pytorch_model.bin \
+    && wget https://huggingface.co/bert-base-uncased/resolve/main/pytorch_model.bin \
+    # && wget https://soft.chiebot.com:10000/model_weight/groundingDINO_weight/bert-base-uncased/pytorch_model.bin \
     && cd /root/mount/ \
-    && wget https://soft.chiebot.com:10000/model_weight/groundingDINO_weight/groundingdino_swinb_cogcoor.pth
-    # && wget https://github.com/IDEA-Research/GroundingDINO/releases/download/v0.1.0-alpha2/groundingdino_swinb_cogcoor.pth
+    # && wget https://soft.chiebot.com:10000/model_weight/groundingDINO_weight/groundingdino_swinb_cogcoor.pth
+    && wget https://github.com/IDEA-Research/GroundingDINO/releases/download/v0.1.0-alpha2/groundingdino_swinb_cogcoor.pth
 
 
 

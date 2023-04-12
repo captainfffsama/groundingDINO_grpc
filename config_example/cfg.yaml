@@ -1,5 +1,5 @@
 detector_params:
-  cfg_path: "/root/goundingDINO_grpc/config_example/GroundingDINO_SwinB.cfg.py"
+  cfg_path: "/root/groundingDINO_grpc/config_example/GroundingDINO_SwinB.cfg.py"
   ckpt_path: "/root/mount/groundingdino_swinb_cogcoor.pth"
   device: "cuda:0"
 grpc_args:
