@@ -15,15 +15,22 @@ RUN sed -i "s@http://.*archive.ubuntu.com@http://mirrors.bfsu.edu.cn@g" /etc/apt
     libsm6 \
     libxext6 \
     libxrender-dev \
+    libgl1 \
+    ffmpeg \
+    build-essential \
+    ninja-build \
+    libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && cd /root \
     && git config --global http.sslverify false \
     && pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple \
     && pip install --no-cache-dir grpcio-tools==1.37.0 \
-    && pip install --no-cache-dir opencv-python-headless \
-    # && pip install --no-cache-dir git+https://github.com/captainfffsama/GroundingDINO.git@chiebot_dev \
-    && pip install --no-cache-dir git+https://git.chiebot.com:10000/HuQiong/GroundingDINO.git@chiebot_dev \
+    # && git clone -b chiebot_dev --depth 1 https://github.com/captainfffsama/GroundingDINO.git \
+    && git clone -b chiebot_dev --depth 1  https://git.chiebot.com:10000/HuQiong/GroundingDINO.git \
+    && cd GroundingDINO \
+    && pip install . \
+    && cd ../ \
     && pip install --no-cache-dir pid  \
     && conda clean --all \
     && git clone https://github.com/captainfffsama/groundingDINO_grpc.git

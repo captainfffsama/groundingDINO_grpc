@@ -32,7 +32,7 @@ def parse_args():
     return args
 
 
-@pidfile(pidname='GDINO_grpc', piddir="/run")
+@pidfile(pidname='GDINO_grpc')
 async def main(args):
     if os.path.exists(args.cfg):
             config_manager.merge_param(args.cfg)
