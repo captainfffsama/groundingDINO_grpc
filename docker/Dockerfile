@@ -10,12 +10,18 @@ RUN sed -i "s@http://.*archive.ubuntu.com@http://mirrors.bfsu.edu.cn@g" /etc/apt
     git \
     wget \
     monit \
+    libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libdc1394-22-dev\
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && cd /root \
     && git config --global http.sslverify false \
     && pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple \
-    && pip install --no-cache-dir grpcio-tools==1.37.0\
+    && pip install --no-cache-dir grpcio-tools==1.37.0 \
+    && pip install --no-cache-dir opencv-python-headless \
     # && pip install --no-cache-dir git+https://github.com/captainfffsama/GroundingDINO.git@chiebot_dev \
     && pip install --no-cache-dir git+https://git.chiebot.com:10000/HuQiong/GroundingDINO.git@chiebot_dev \
     && pip install --no-cache-dir pid  \
