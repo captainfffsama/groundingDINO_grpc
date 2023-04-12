@@ -3,7 +3,7 @@
 @Author: captainfffsama
 @Date: 2023-04-10 10:50:34
 @LastEditors: captainfffsama tuanzhangsama@outlook.com
-@LastEditTime: 2023-04-12 12:08:36
+@LastEditTime: 2023-04-12 14:09:16
 @FilePath: /groundingDINO_grpc/main.py
 @Description:
 '''
@@ -32,7 +32,7 @@ def parse_args():
     return args
 
 
-@pidfile(pidname='GDINO_grpc')
+@pidfile(pidname='GDINO_grpc', piddir="/run")
 async def main(args):
     if os.path.exists(args.cfg):
             config_manager.merge_param(args.cfg)

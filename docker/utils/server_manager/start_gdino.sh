@@ -11,7 +11,7 @@ if [ ! -f $LOG_PATH ]
 then
     touch $LOG_PATH
 fi
-if [ -f "/run/GDINO_grpc.pid"]
+if [ -f "/run/GDINO_grpc.pid" ]
 then
     kill `cat /run/GDINO_grpc.pid`
     rm /run/GDINO_grpc.pid
