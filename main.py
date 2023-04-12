@@ -3,7 +3,7 @@
 @Author: captainfffsama
 @Date: 2023-04-10 10:50:34
 @LastEditors: captainfffsama tuanzhangsama@outlook.com
-@LastEditTime: 2023-04-10 17:03:59
+@LastEditTime: 2023-04-12 12:08:36
 @FilePath: /groundingDINO_grpc/main.py
 @Description:
 '''
@@ -12,7 +12,6 @@ import argparse
 from concurrent import futures
 from pprint import pprint
 from datetime import datetime
-from simecy import decrypt
 import asyncio
 import pid
 from pid.decorator import pidfile
@@ -33,11 +32,10 @@ def parse_args():
     return args
 
 
-@pidfile(pidname='mmdet_grpc')
+@pidfile(pidname='GDINO_grpc')
 async def main(args):
     if os.path.exists(args.cfg):
-        with decrypt(args.cfg, 'chiebot-ai') as d:
-            config_manager.merge_param(d)
+            config_manager.merge_param(args.cfg)
     args_dict: dict = config_manager.param
     print("current time is: ", datetime.now())
     print("pid file save in {}".format(pid.DEFAULT_PID_DIR))

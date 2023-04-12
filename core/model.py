@@ -3,13 +3,12 @@
 @Author: captainfffsama
 @Date: 2023-04-10 10:54:49
 @LastEditors: captainfffsama tuanzhangsama@outlook.com
-@LastEditTime: 2023-04-11 14:35:50
+@LastEditTime: 2023-04-12 11:58:41
 @FilePath: /groundingDINO_grpc/core/model.py
 @Description:
 '''
 from collections import defaultdict
 from typing import Union
-from simecy import decrypt
 
 import numpy as np
 import cv2
@@ -65,12 +64,9 @@ class Detector(dld_pb2_grpc.AiServiceServicer):
                  cfg_path,
                  ckpt_path,
                  device: str = 'cuda:0'):
-        with decrypt(cfg_path,
-                     'chiebot-ai') as cf, decrypt(ckpt_path,
-                                                  'chiebot-ai') as ck:
-            model_args=SLConfig.fromfile(cf)
-            model_args.device = device
-            ckpt=torch.load(ck,map_location="cpu")
+        model_args=SLConfig.fromfile(cfg_path)
+        model_args.device = device
+        ckpt=torch.load(ckpt_path,map_location="cpu")
         self.model=build_model(model_args)
         self.device=device
         load_res=self.model.load_state_dict(clean_state_dict(ckpt["model"]),strict=False)
