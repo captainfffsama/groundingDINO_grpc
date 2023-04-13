@@ -299,7 +299,7 @@ set httpd port 2812 and
 check process GDINO_grpc with pidfile /run/GDINO_grpc.pid
     start program = "/root/server_manager/start_gdino.sh" with timeout 60 seconds
     stop program = "/root/server_manager/stop_gdino.sh" with timeout 20 seconds
-    if failed port 52005 with timeout 30 seconds for 60 cycles then restart
+    if failed port 52017 with timeout 30 seconds for 60 cycles then restart
 
 
 
