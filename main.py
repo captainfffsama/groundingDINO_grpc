@@ -3,7 +3,7 @@
 @Author: captainfffsama
 @Date: 2023-04-10 10:50:34
 @LastEditors: captainfffsama tuanzhangsama@outlook.com
-@LastEditTime: 2023-04-12 14:09:16
+@LastEditTime: 2023-04-13 11:49:23
 @FilePath: /groundingDINO_grpc/main.py
 @Description:
 '''
@@ -32,7 +32,6 @@ def parse_args():
     return args
 
 
-@pidfile(pidname='GDINO_grpc')
 async def main(args):
     if os.path.exists(args.cfg):
             config_manager.merge_param(args.cfg)
@@ -62,7 +61,10 @@ async def main(args):
     print('groundingDINO gprc server init done')
     await server.wait_for_termination()
 
-
-if __name__ == "__main__":
+@pidfile(pidname='GDINO_grpc')
+def run():
     args = parse_args()
     asyncio.run(main(args))
+
+if __name__ == "__main__":
+    run()
