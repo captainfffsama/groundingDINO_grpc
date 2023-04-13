@@ -3,7 +3,7 @@
 @Author: captainfffsama
 @Date: 2023-04-10 10:50:34
 @LastEditors: captainfffsama tuanzhangsama@outlook.com
-@LastEditTime: 2023-04-13 11:49:23
+@LastEditTime: 2023-04-13 12:37:07
 @FilePath: /groundingDINO_grpc/main.py
 @Description:
 '''
@@ -12,7 +12,6 @@ import argparse
 from concurrent import futures
 from pprint import pprint
 from datetime import datetime
-import asyncio
 import pid
 from pid.decorator import pidfile
 
@@ -32,7 +31,8 @@ def parse_args():
     return args
 
 
-async def main(args):
+@pidfile(pidname='GDINO_grpc')
+def main(args):
     if os.path.exists(args.cfg):
             config_manager.merge_param(args.cfg)
     args_dict: dict = config_manager.param
@@ -57,14 +57,10 @@ async def main(args):
 
     server.add_insecure_port("{}:{}".format(grpc_args['host'],
                                             grpc_args['port']))
-    await server.start()
+    server.start()
     print('groundingDINO gprc server init done')
-    await server.wait_for_termination()
-
-@pidfile(pidname='GDINO_grpc')
-def run():
-    args = parse_args()
-    asyncio.run(main(args))
+    server.wait_for_termination()
 
 if __name__ == "__main__":
-    run()
+    args = parse_args()
+    main(args)

@@ -25,6 +25,7 @@ RUN sed -i "s@http://.*archive.ubuntu.com@http://mirrors.bfsu.edu.cn@g" /etc/apt
     && cd /root \
     && git config --global http.sslverify false \
     && pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple \
+    && pip install --no-cache-dir grpcio==1.37.0 \
     && pip install --no-cache-dir grpcio-tools==1.37.0 \
     && git clone -b chiebot_dev --depth 1 https://github.com/captainfffsama/GroundingDINO.git \
     # && git clone -b chiebot_dev --depth 1  https://git.chiebot.com:10000/HuQiong/GroundingDINO.git \

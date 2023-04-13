@@ -3,7 +3,7 @@
 @Author: captainfffsama
 @Date: 2023-04-10 10:54:49
 @LastEditors: captainfffsama tuanzhangsama@outlook.com
-@LastEditTime: 2023-04-12 11:58:41
+@LastEditTime: 2023-04-13 12:25:13
 @FilePath: /groundingDINO_grpc/core/model.py
 @Description:
 '''
@@ -116,5 +116,6 @@ class Detector(dld_pb2_grpc.AiServiceServicer):
             obj_pro.rect.y = int(obj[3])
             obj_pro.rect.w = int(obj[4] - obj[2])
             obj_pro.rect.h = int(obj[5] - obj[3])
+        torch.cuda.empty_cache()
 
         return result_pro
