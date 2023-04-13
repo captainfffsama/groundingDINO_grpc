@@ -3,7 +3,7 @@
 @Author: captainfffsama
 @Date: 2023-04-10 10:54:49
 @LastEditors: captainfffsama tuanzhangsama@outlook.com
-@LastEditTime: 2023-04-13 12:25:13
+@LastEditTime: 2023-04-13 12:49:59
 @FilePath: /groundingDINO_grpc/core/model.py
 @Description:
 '''
