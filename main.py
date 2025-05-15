@@ -52,6 +52,12 @@ async def main(args):
     if os.path.exists(args.model_cfg) and os.path.exists(args.model_weight):
         detector_params['cfg_path'] = args.model_cfg
         detector_params['ckpt_path'] = args.model_weight
+    # FIXME: dirty fix device
+    device=detector_params.get("device","None")
+    if device.startswith("cuda"):
+        detector_params.pop("device")
+        if device.find(":") != -1:
+            os.environ["CUDA_VISIBLE_DEVICES"] = device.split(":")[-1]
     model = Detector(**detector_params)
     dld_grpc.add_AiServiceServicer_to_server(model, server)
 

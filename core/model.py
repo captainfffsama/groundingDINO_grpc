@@ -25,13 +25,12 @@ from groundingdino.util.utils import clean_state_dict, get_phrases_from_posmap
 
 from .utils import get_img
 
-def get_grounding_output(model, image, caption, box_threshold, text_threshold, with_logits=True, cpu_only=False):
+def get_grounding_output(model, image, caption, box_threshold, text_threshold, with_logits=True, device="cuda"):
     caption = caption.lower()
     caption = caption.strip()
     if not caption.endswith("."):
         caption = caption + "."
-    device = "cuda" if not cpu_only else "cpu"
-    model = model.to(device)
+    # model = model.to(device)
     image = image.to(device)
     with torch.no_grad():
         outputs = model(image[None], captions=[caption])
@@ -45,7 +44,6 @@ def get_grounding_output(model, image, caption, box_threshold, text_threshold, w
     filt_mask = logits_filt.max(dim=1)[0] > box_threshold
     logits_filt = logits_filt[filt_mask]  # num_filt, 256
     boxes_filt = boxes_filt[filt_mask]  # num_filt, 4
-    logits_filt.shape[0]
 
     # get phrase
     tokenlizer = model.tokenizer
@@ -67,9 +65,11 @@ class Detector(dld_pb2_grpc.AiServiceServicer):
         model_args=SLConfig.fromfile(cfg_path)
         model_args.device = device
         ckpt=torch.load(ckpt_path,map_location="cpu")
-        self.model=build_model(model_args)
+        self.model=build_model(model_args,)
+        print("model will build on device: ",device)
         self.device=device
         load_res=self.model.load_state_dict(clean_state_dict(ckpt["model"]),strict=False)
+        self.model=self.model.to(device)
         self.model.eval()
         self._transform = T.Compose(
             [
@@ -85,9 +85,8 @@ class Detector(dld_pb2_grpc.AiServiceServicer):
         W,H=img.size
         classes=set(prompt.split(";"))
         img_det,_=self._transform(img,None)
-        cpu_only= True if self.device.startswith("cpu") else False
         boxes_filt, pred_phrases = get_grounding_output(
-            self.model,img_det,prompt, box_thr, text_thr, cpu_only=cpu_only
+            self.model,img_det,prompt, box_thr, text_thr, device=self.device
         )
         new_result =[]
         for box,label in zip(boxes_filt, pred_phrases):
