@@ -25,16 +25,16 @@ def run():
     # NOTE(gRPC Python Team): .close() is possible on a channel and should be
     # used in circumstances in which the with statement does not fit the needs
     # of the code.
-    with grpc.insecure_channel('localhost:52007') as channel:
+    with grpc.insecure_channel('localhost:52002') as channel:
         stub = dld_grpc.AiServiceStub(channel)
-        img_path = r"/home/chiebotgpuhq/MyCode/python/pytorch/groundingDINO_grpc/test_weight/1.jpg"
+        img_path = r"/data1/tmp/can_rm/111.jpg"
         img_file = open(img_path,'rb')  # 二进制打开图片文件
         img_b64encode = base64.b64encode(img_file.read())  # base64编码
         img_file.close()  # 文件关闭
 
         req1 = dldetection_pb2.ZeroShotRequest()
         req1.imdata = img_b64encode
-        req1.prompt="head;hand;cigarette;people;cup;"
+        req1.prompt="red insulator"
         req1.boxThr=0.2
         req1.textThr=0.4
         r1 = stub.ZeroShotDet(req1)
